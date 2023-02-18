@@ -9,7 +9,9 @@ public class OrdenamientoNatural {
     Connection conn = null;
     String sql = "SELECT * FROM nombre";
     try {
-      conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ordenamientonatural", "root", "");
+      conn =
+          DriverManager.getConnection(
+              "jdbc:mysql://localhost:3306/ordenamientonatural", "root", "");
     } catch (SQLException e) {
       System.err.println("Error al conectar con la base de datos: " + e.getMessage());
     }
@@ -20,7 +22,7 @@ public class OrdenamientoNatural {
     } catch (SQLException e) {
       System.err.println("Error al ejecutar la consulta: " + e.getMessage());
     }
-      List<String> nombres = new ArrayList<>();
+    List<String> nombres = new ArrayList<>();
     try {
       while (resultados.next()) {
         nombres.add(resultados.getString("nombre"));
@@ -37,7 +39,8 @@ public class OrdenamientoNatural {
     orden específico, utilizando un algoritmo de ordenamiento.*/
 
     Collections.sort(
-        nombres, new Comparator<String>() {
+        nombres,
+        new Comparator<String>() {
 
           /*compare() es un método que se utiliza para comparar
           dos objetos de un mismo tipo en Java. En el contexto
