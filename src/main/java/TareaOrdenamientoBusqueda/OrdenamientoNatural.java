@@ -1,20 +1,33 @@
 package TareaOrdenamientoBusqueda;
 
+import java.sql.*;
 import java.util.*;
 
 public class OrdenamientoNatural {
 
   public static void main(String[] args) {
-    List<String> nombres = new ArrayList<>();
-    nombres.add("Juan");
-    nombres.add("Pedro");
-    nombres.add("Carlos");
-    nombres.add("Ana");
-    nombres.add("Maria");
-    nombres.add("Manuel");
-    nombres.add("José");
-    nombres.add("Tamara");
-    nombres.add("Adrian");
+    Connection conn = null;
+    String sql = "SELECT * FROM nombre";
+    try {
+      conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ordenamientonatural", "root", "");
+    } catch (SQLException e) {
+      System.err.println("Error al conectar con la base de datos: " + e.getMessage());
+    }
+    ResultSet resultados = null;
+    try {
+      Statement stmt = conn.createStatement();
+      resultados = stmt.executeQuery(sql);
+    } catch (SQLException e) {
+      System.err.println("Error al ejecutar la consulta: " + e.getMessage());
+    }
+      List<String> nombres = new ArrayList<>();
+    try {
+      while (resultados.next()) {
+        nombres.add(resultados.getString("nombre"));
+      }
+    } catch (SQLException e) {
+      System.err.println("Error al obtener los resultados: " + e.getMessage());
+    }
 
     System.out.println("Lista antes del ordenamiento natural: " + nombres);
 
@@ -24,8 +37,7 @@ public class OrdenamientoNatural {
     orden específico, utilizando un algoritmo de ordenamiento.*/
 
     Collections.sort(
-        nombres,
-        new Comparator<String>() {
+        nombres, new Comparator<String>() {
 
           /*compare() es un método que se utiliza para comparar
           dos objetos de un mismo tipo en Java. En el contexto
