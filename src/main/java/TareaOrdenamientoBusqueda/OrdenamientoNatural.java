@@ -1,58 +1,5 @@
 package TareaOrdenamientoBusqueda;
-
-import java.sql.*;
-import java.util.*;
-
 public class OrdenamientoNatural {
-
-  public static void main(String[] args) {
-    Connection conn = null;
-    String sql = "SELECT * FROM nombre";
-    try {
-      conn =
-          DriverManager.getConnection(
-              "jdbc:mysql://localhost:3306/ordenamientonatural", "root", "");
-    } catch (SQLException e) {
-      System.err.println("Error al conectar con la base de datos: " + e.getMessage());
-    }
-    ResultSet resultados = null;
-    try {
-      Statement stmt = conn.createStatement();
-      resultados = stmt.executeQuery(sql);
-    } catch (SQLException e) {
-      System.err.println("Error al ejecutar la consulta: " + e.getMessage());
-    }
-    List<String> nombres = new ArrayList<>();
-    try {
-      while (resultados.next()) {
-        nombres.add(resultados.getString("nombre"));
-      }
-    } catch (SQLException e) {
-      System.err.println("Error al obtener los resultados: " + e.getMessage());
-    }
-
-    System.out.println("Lista antes del ordenamiento natural: " + nombres);
-
-    /*Collections es una clase que proporciona una gran cantidad de métodos
-    estáticos para trabajar con colecciones de objetos, como listas, conjuntos y mapas.
-    Uno de los metodos de esta clase es Sort que ordena los elementos de una lista en un
-    orden específico, utilizando un algoritmo de ordenamiento.*/
-
-    Collections.sort(
-        nombres,
-        new Comparator<String>() {
-
-          /*compare() es un método que se utiliza para comparar
-          dos objetos de un mismo tipo en Java. En el contexto
-          del ejemplo que mostraste, este método se implementa
-          dentro de la interfaz */
-          public int compare(String s1, String s2) {
-            return naturalCompare(s1, s2);
-          }
-        });
-
-    System.out.println("Lista después del ordenamiento natural: " + nombres);
-  }
 
   public static int naturalCompare(String a, String b) {
     int la = a.length(), lb = b.length();
@@ -76,7 +23,7 @@ public class OrdenamientoNatural {
       if (Character.isDigit(ca) && Character.isDigit(cb)) {
         int na = 0, nb = 0;
         while (ka < la && Character.isDigit(a.charAt(ka))) {
-          na = na * 10 + a.charAt(ka++) - '0';
+          na = na * 10 + a.charAt(ka++) - '0'; //se resta el valor de '0' (el carácter cuyo código ASCII es 48) al carácter obtenido, para obtener su valor numérico. Esto se hace porque el código ASCII de los dígitos '0' a '9' están en secuencia, por lo que restar el valor de '0' a cualquier dígito dará su valor numérico real.
         }
         while (kb < lb && Character.isDigit(b.charAt(kb))) {
           nb = nb * 10 + b.charAt(kb++) - '0';

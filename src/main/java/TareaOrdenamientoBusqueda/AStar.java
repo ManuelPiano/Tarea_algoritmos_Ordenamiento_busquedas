@@ -1,78 +1,100 @@
 package TareaOrdenamientoBusqueda;
 
-import java.util.*;
+import java.util.PriorityQueue;
+import java.util.HashSet;
+import java.util.Set;
+
+class Nodo implements Comparable<Nodo> {
+  int x, y;
+  int g, h;
+  Nodo parent;
+/*La clase Nodo: representa un nodo en el mapa. Tiene dos variables x e y
+que representan la posición del nodo en el mapa, y variables g y h que se
+utilizan en el cálculo de la función de coste. También tiene una variable
+parent que se utiliza para almacenar el nodo padre en la ruta más corta.
+La clase implementa la interfaz Comparable para poder ordenar los nodos en una cola de prioridad. */
+  public Nodo(int x, int y) {
+    this.x = x;
+    this.y = y;
+    g = 0; //el costo del camino desde el nodo inicial hasta el nodo actual.
+    h = 0; //una heurística que estima el costo del camino más barato.
+    parent = null;
+  }
+
+  public Nodo(int x, int y, int g, int h, Nodo parent) {
+    this.x = x;
+    this.y = y;
+    this.g = g;
+    this.h = h;
+    this.parent = parent;
+  }
+
+
+  public int f() {
+    return g + h;
+  }
+
+  public int compareTo(Nodo other) {//compara los nodos
+    return this.f() - other.f();
+  }
+}
 
 public class AStar {
-  public static int[] aStar(int[][] graph, int start, int end) {
-    int n = graph.length;
-    int[] cameFrom = new int[n];
-    double[] gScore = new double[n];
-    Arrays.fill(gScore, Double.POSITIVE_INFINITY);
-    gScore[start] = 0;
-    double[] fScore = new double[n];
-    Arrays.fill(fScore, Double.POSITIVE_INFINITY);
-    fScore[start] = heuristic(start, end);
-    PriorityQueue<Integer> openSet =
-        new PriorityQueue<>(Comparator.comparingDouble(i -> fScore[i]));
-    openSet.offer(start);
-    while (!openSet.isEmpty()) {
-      int current = openSet.poll();
-      if (current == end) {
-        return reconstructPath(cameFrom, end);
-      }
-      for (int neighbor = 0; neighbor < n; neighbor++) {
-        if (graph[current][neighbor] == 0) {
-          continue;
-        }
-        double tentativeGScore = gScore[current] + graph[current][neighbor];
-        if (tentativeGScore < gScore[neighbor]) {
-          cameFrom[neighbor] = current;
-          gScore[neighbor] = tentativeGScore;
-          fScore[neighbor] = gScore[neighbor] + heuristic(neighbor, end);
-          if (!openSet.contains(neighbor)) {
-            openSet.offer(neighbor);
-          }
-        }
-      }
-    }
-    return null;
-  }
-
-  private static int[] reconstructPath(int[] cameFrom, int current) {
-    List<Integer> path = new ArrayList<>();
-    while (current != 0) {
-      path.add(current);
-      current = cameFrom[current];
-    }
-    path.add(0);
-    Collections.reverse(path);
-    return path.stream().mapToInt(Integer::intValue).toArray();
-  }
-
-  private static double heuristic(int a, int b) {
-    // manhattan distance as the heuristic
-    int x1 = a % 6, y1 = a / 6;
-    int x2 = b % 6, y2 = b / 6;
-    return Math.abs(x1 - x2) + Math.abs(y1 - y2);
-  }
+  private static final int[][] DIRS = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
   public static void main(String[] args) {
-    int[][] graph = {
-      {0, 4, 0, 0, 0, 0},
-      {0, 0, 2, 0, 5, 0},
-      {0, 0, 0, 3, 0, 0},
-      {0, 0, 0, 0, 0, 6},
-      {0, 0, 0, 0, 0, 3},
-      {0, 0, 0, 0, 0, 0}
-    };
-    int start = 0;
-    int end = 5;
-    int[] path = aStar(graph, start, end);
-    if (path == null) {
-      System.out.println("No path found");
-    } else {
-      System.out.println(
-          "Shortest path from " + start + " to " + end + ": " + Arrays.toString(path));
+    int[][] mapa = {{0, 0, 0, 0, 0},
+                    {0, 1, 1, 0, 0},
+                    {0, 0, 0, 0, 0},
+                    {0, 1, 1, 1, 0},
+                    {0, 0, 0, 0, 0}};
+
+    Nodo start = new Nodo(0, 0);
+    Nodo meta = new Nodo(4, 4);
+
+    Set<Nodo> closedSet = new HashSet<>();
+    PriorityQueue<Nodo> openSet = new PriorityQueue<>();
+    openSet.add(start);
+
+    while (!openSet.isEmpty()) {
+      Nodo current = openSet.poll();
+      if (current.x == meta.x && current.y == meta.y) {
+        // Hemos llegado al objetivo, construimos el camino de vuelta.
+        StringBuilder sb = new StringBuilder();
+        while (current != null) {
+          sb.append(")").append(current.x).append(", ").append(current.y).append("( ");
+          current = current.parent;
+        }
+        System.out.println(sb.reverse().toString());
+        return;
+      }
+      closedSet.add(current);
+      for (int[] dir : DIRS) {
+        int nextX = current.x + dir[0];
+        int nextY = current.y + dir[1];
+        if (nextX < 0 || nextX >= mapa.length || nextY < 0 || nextY >= mapa[0].length || mapa[nextX][nextY] == 1) {
+          // Si la siguiente casilla no es válida, la ignoramos.
+          continue;
+        }
+        Nodo next = new Nodo(nextX, nextY);
+        int newG = current.g + 1;
+        int newH = Math.abs(nextX - meta.x) + Math.abs(nextY - meta.y);
+        if (closedSet.contains(next)) {
+          // Si ya hemos visitado esta casilla, la ignoramos.
+          continue;
+        }
+        if (!openSet.contains(next) || newG + newH < next.f()) {
+          // Si hemos encontrado una nueva casilla o una mejor forma de llegar a ella, actualizamos los valores.
+          next.g = newG;
+          next.h = newH;
+          next.parent = current;
+          openSet.add(next);
+
+        }
+      }
+      System.gc();
     }
+    // Si llegamos aquí, es que no hemos encontrado ninguna solución.
+    System.out.println("No se ha encontrado solución.");
   }
 }
