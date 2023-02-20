@@ -1,3 +1,4 @@
+# Alumno: Manuel Alfredo Alvarado Rivera
 # Tarea algoritmos Ordenamiento busquedas
 
 ## 	Algoritmo de ordenación natural
@@ -19,6 +20,9 @@ Repetición: En el último paso, se repiten los pasos 1 y 2 hasta que se hayan f
 
 # 3. Una solución Java (puede buscarla y usarla, siempre dando crédito al autor y proporcionando fuente de consulta; y lo mas importante: entenderla completamente)
 (Ver Código)
+*Creditos al Canal de Mario Garrido en youtube donde explica la clase compare y su implementacion https://www.youtube.com/watch?v=6trV1QUaIns
+*busqueda en chatgpt con respecto a la explicacion del algoritmo
+
 
 # 4. Cómo funciona el algoritmo con los diferentes tipos de memorias y stacks en Java (como afecta)
 El algoritmo de ordenación natural no tiene un requerimiento específico en cuanto a la memoria o stack en Java. Sin embargo, su rendimiento puede verse afectado por la disponibilidad de memoria y la gestión de la memoria por parte de la JVM.
@@ -42,3 +46,44 @@ Caso promedio: O(n log n), donde n es la longitud promedio de las cadenas a comp
 El algoritmo de ordenación natural es una solución interesante para ordenar cadenas que contienen elementos numéricos y no numéricos. 
 puede ser un problema en conjuntos de datos grandes por lo que mencionabamos acerca de la memoria ya que se estaria llenando rapidamente
 en si el algoritmo es una solución util para problemas en especifico, pero siempre sera importante testear el desempeño de este con otros algoritmos que pueden resultar mas eficientes segun el tipo de datos a utilizar.
+
+
+## Algoritmo de búsqueda A*
+
+# 1. Qué hace
+El algoritmo de búsqueda A* es un algoritmo de búsqueda heurística utilizado para encontrar el camino más corto entre un nodo inicial y un nodo final en un grafo o red de nodos.
+Combina la función de costo real de un camino desde el nodo inicial hasta el nodo actual con una heurística que estima el costo del camino más corto desde el nodo actual hasta el nodo final, lo que permite guiar la búsqueda hacia el nodo final de la manera más eficiente posible. Utiliza una estructura de datos llamada cola de prioridad para mantener un conjunto de nodos en el límite de la exploración, ordenados por el valor de una función de costo calculada como la suma de la función heurística y el costo real.
+La heurística es una técnica de resolución de problemas que se basa en el uso de conocimiento previo y experiencia para encontrar soluciones posibles en situaciones complejas donde no se dispone de un algoritmo exacto.
+
+
+# 2. Cómo funciona (detalles)
+
+El algoritmo de búsqueda A* funciona de la siguiente manera:
+
+Se crea una estructura de datos llamada cola de prioridad, que almacena los nodos que están en el límite de la exploración, ordenados por el valor de una función de costo calculada como la suma de la función heurística y el costo real.
+
+Se agrega el nodo inicial a la cola de prioridad y se establece su costo real en 0.
+
+Se extrae el nodo con el menor valor de la cola de prioridad.
+
+Se comprueba si el nodo extraído es el nodo final. Si lo es, se ha encontrado el camino más corto.
+
+Si el nodo extraído no es el nodo final, se expanden sus sucesores y se calcula el costo real de los nuevos caminos desde el nodo inicial hasta cada sucesor.
+
+Para cada sucesor, se calcula el costo total como la suma del costo real y la función heurística que estima el costo del camino más corto desde el sucesor hasta el nodo final.
+
+Se actualiza el costo real y el camino hasta cada sucesor si se ha encontrado un camino más corto.
+
+Se agrega cada sucesor a la cola de prioridad, ordenados por el valor de su costo total.
+
+Se repiten los pasos 3-8 hasta que se alcance el nodo final o hasta que la cola de prioridad esté vacía.
+
+Si la heurística es admisible, el algoritmo de búsqueda A* garantiza encontrar la solución óptima al problema de búsqueda. Además, si la heurística es consistente, A* también puede ser demostrado que es óptimo en tiempo polinómico. A* es un algoritmo eficiente y ampliamente utilizado en áreas como la planificación de rutas, la robótica, la inteligencia artificial y la optimización.
+
+https://gammafp.github.io/pathfinding/ (ejemplo)
+https://www.youtube.com/watch?v=X-5JMScsZ14&t=1109s
+
+# 3. Una solución Java (puede buscarla y usarla, siempre dando crédito al autor y proporcionando fuente de consulta; y lo mas importante: entenderla completamente)
+# 4. Cómo funciona el algoritmo con los diferentes tipos de memorias y stacks en Java (como afecta)
+# 5. Determinar la complejidad/velocidad/costo de acuerdo a la notación Big (O)
+# 5. Su propia opinión sobre el algoritmo
