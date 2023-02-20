@@ -84,6 +84,23 @@ https://gammafp.github.io/pathfinding/ (ejemplo)
 https://www.youtube.com/watch?v=X-5JMScsZ14&t=1109s
 
 # 3. Una solución Java (puede buscarla y usarla, siempre dando crédito al autor y proporcionando fuente de consulta; y lo mas importante: entenderla completamente)
+
+Ver Codigo
+
 # 4. Cómo funciona el algoritmo con los diferentes tipos de memorias y stacks en Java (como afecta)
+El funcionamiento del algoritmo A* en Java depende en gran medida de la memoria y el stack disponibles en el sistema en el que se está ejecutando. En general, el algoritmo A* es intensivo en memoria, ya que necesita almacenar información sobre cada nodo visitado y, en algunos casos, mantener una cola de prioridad con muchos elementos.
+
+En cuanto al stack, si el número de nodos visitados por el algoritmo es muy grande, puede ocurrir que se exceda el tamaño máximo del stack. Esto puede causar una excepción de desbordamiento del stack y provocar la interrupción del programa.
+
+Para mitigar estos problemas, se pueden tomar medidas como aumentar el tamaño del stack y optimizar la estructura de datos utilizada para almacenar la información de los nodos visitados. También se pueden emplear técnicas de poda y optimización para reducir el número de nodos visitados.
+
+En cuanto a la memoria, Java utiliza un modelo de memoria de objetos gestionado por un recolector de basura. Esto significa que la memoria no se libera inmediatamente después de que un objeto deja de ser utilizado, sino que se espera a que el recolector de basura lo identifique como basura y lo elimine.
+
+En general, el impacto de la memoria y el stack en el algoritmo A* dependerá de la complejidad del mapa y de la cantidad de nodos que se deban visitar para encontrar la solución. Por lo tanto, es importante realizar pruebas exhaustivas y optimizar el código para garantizar un buen rendimiento en diferentes escenarios.
 # 5. Determinar la complejidad/velocidad/costo de acuerdo a la notación Big (O)
+La complejidad de tiempo de A* se puede expresar en términos de la notación Big O como O(b^d), donde b es el factor de ramificación promedio del árbol de búsqueda y d es la profundidad de la solución en el árbol de búsqueda. En el peor de los casos, donde b es exponencial y d es igual al número total de nodos en el espacio de búsqueda, la complejidad de tiempo es exponencial.
+
+En el peor de los casos, A* puede expandir todos los nodos en el espacio de búsqueda, lo que puede llevar a una complejidad exponencial en la cantidad de nodos. Sin embargo, en la práctica, el uso de heurísticas admisibles y la implementación de una cola de prioridad eficiente suelen limitar la expansión de nodos y garantizar una complejidad razonable.
+
 # 5. Su propia opinión sobre el algoritmo
+Es un algoritmo que muy bien usado puede servir para trazar rutas, direcciones, y asimismo juegos ya que crea y optimiza la manera de llegar de un punto "A" a un punto "B" de una manera optima aun asi poniendole obstaculos se pueden lograr mejores rutas.
